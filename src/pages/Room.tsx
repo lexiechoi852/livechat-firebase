@@ -58,6 +58,7 @@ export default function Room() {
         }
         createMessage(newMessage)
     }
+    setValue('')
   }
 
   return (
