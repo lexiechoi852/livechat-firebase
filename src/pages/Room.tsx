@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Chatroom, Message } from '../types/chat';
 import { AuthContext } from '../contexts/authContext';
 import { createMessage, getRoom } from '../utils/firestore';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../configs/firebase';
 
 export default function Room() {
@@ -24,10 +24,11 @@ export default function Room() {
         
         getChatroom()
         const messageRef = collection(db, "chatrooms", id, "room");
-
+        const messageQuery = query(messageRef, orderBy("createdAt", "asc"));
         
-        const unsubscribe = onSnapshot(messageRef, (snapshot) => {
+        const unsubscribe = onSnapshot(messageQuery, (snapshot) => {
             const message = snapshot.docs.map(doc => doc.data() as Message);
+            
             setMessages(message);
         })
         return unsubscribe;
