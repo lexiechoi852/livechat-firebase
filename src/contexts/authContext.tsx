@@ -7,11 +7,13 @@ interface Props {
   children?: ReactNode
 }
 
-export const AuthContext = createContext({
-  currentUser: {} as User | null,
-  setCurrentUser: (user: User) => {},
-  signOut: () => {}
-});
+type ContextType = {
+  currentUser: User | null,
+  setCurrentUser: (user: User) => void,
+  signOut: () => void
+}
+
+export const AuthContext = createContext<ContextType | null>(null);
 
 const SignOutUser = async () => await signOut(auth);
 
